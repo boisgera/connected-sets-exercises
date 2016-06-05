@@ -1,0 +1,28 @@
+#!/bin/bash
+set -euo pipefail
+
+DOC="Connected Sets"
+DIR="/www/complex-analysis"
+HOST=www.eul.ink
+LOGIN=boisgera
+
+# Helpers
+# ------------------------------------------------------------------------------
+escape () {
+  echo $(printf %q "$1")
+}
+
+me="$LOGIN@$HOST"
+target="$DIR"/$(escape "$DOC")/Exercises
+
+# Main
+# ------------------------------------------------------------------------------
+ssh "$me" mkdir -p "$target"
+scp -pr "$DOC".txt "$me:$target"
+scp -pr "$DOC".html "$me:$target/index.html"
+#scp -pr images "$me:$target/images"
+scp -pr "$DOC".pdf "$me:$target"
+scp -pr "$DOC".zip "$me:$target"
+
+
+
