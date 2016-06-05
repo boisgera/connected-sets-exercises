@@ -13,6 +13,10 @@ Exercises
 Anchor Set
 --------------------------------------------------------------------------------
 
+
+**TODO:** investigate an application (either with a skeleton or a deformation
+retraction).
+
 Prove that if $\mathcal{A}$ is a collection of 
 path-connected/connected sets,
 and there is a set $A^* \in \mathcal{A}$ such that 
