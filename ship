@@ -1,7 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-DOC="Connected Sets"
+# Configuration
+# ------------------------------------------------------------------------------
+
 DIR="/www/complex-analysis"
 HOST=www.eul.ink
 LOGIN=boisgera
@@ -12,17 +14,41 @@ escape () {
   echo $(printf %q "$1")
 }
 
-me="$LOGIN@$HOST"
-target="$DIR"/$(escape "$DOC")/Exercises
 
-# Main
+# Convention over Configuration
 # ------------------------------------------------------------------------------
-ssh "$me" mkdir -p "$target"
-scp -pr "$DOC".txt "$me:$target"
-scp -pr "$DOC".html "$me:$target/index.html"
-#scp -pr images "$me:$target/images"
-scp -pr "$DOC".pdf "$me:$target"
-scp -pr "$DOC".zip "$me:$target"
+txt=$(ls *.txt)
+doc="${txt%.*}"
+host="$LOGIN@$HOST"
+target="$DIR"/$(escape "$doc")/Exercises
 
 
+# Gather Files
+# ------------------------------------------------------------------------------
 
+# Documents and Archive
+exts=(txt json html pdf zip)
+files=()
+for ext in "${exts[@]}"
+do
+  files+=("$doc.$ext")
+done
+
+# Images
+if [ -e images ]; then
+  files+=("images")
+fi
+
+# Bibliography
+files+=($(ls -d *.bib 2>/dev/null || true)) # fragile wrt spaces & co.
+
+
+# Ship & Tweak
+# ------------------------------------------------------------------------------
+
+# Ship
+rsync -av "${files[@]}" "$host:$target"
+
+# Make index.html
+ssh "$host" rm -rf "$target/index.html"
+ssh "$host" ln -s "$target"/"$(escape "$doc")".html "$target/index.html"

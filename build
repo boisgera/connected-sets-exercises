@@ -33,9 +33,12 @@ fi
 txt=$(ls *.txt)
 doc="${txt%.*}"
 
+# Bibliography
+# ==============================================================================
+
 bib=
-if ls *.bib > /dev/null 2> /dev/null; then
-    bib=$(ls *.bib)
+if ls bibliography/*.json > /dev/null 2> /dev/null; then
+    bib=$(ls bibliography/*.json)
 fi
 
 images=
@@ -46,19 +49,19 @@ fi
 
 # Variables
 # ==============================================================================
-TOC="--toc --toc-depth=2"
+TOC="--toc --toc-depth=3"
 TYPO="--smart"
 LANG_="-V lang=en" # don't shadow the LANG variable.
-BIB_OPT=
+BIB=
 if [ ! -z "$bib" ]; then
-    BIB_OPT="-M link-citations=true"
-    BIB_OPT="$BIB_OPT --bibliography="$bib""
+    BIB="-M link-citations=true"
+    BIB="$BIB --bibliography="$bib""
 fi
 
-SHARED="$LANG_ $TOC $TYPO"
-JSON_OPT="-t json $SHARED $BIB_OPT"
-PDF_OPT="$SHARED"
-HTML_OPT="-t html5 $SHARED --section-divs --mathjax --email-obfuscation=none"
+SHARED_OPT="$LANG_ $TOC $TYPO"
+JSON_OPT="-t json $SHARED_OPT $BIB"
+PDF_OPT="$SHARED_OPT"
+HTML_OPT="-t html5 $SHARED_OPT --section-divs --mathjax --email-obfuscation=none"
 
 txt="$doc.txt"
 pdf="$doc.pdf"
@@ -100,7 +103,7 @@ rm "$json_pdf"
 cat "$json" | eul-doc --html > "$json_html"
 pandoc -f json $HTML_OPT "$json_html" > "_$html"
 rm "$json_html"
-eul-style "_$html" > "$html" && rm "_$html"
+eul-style -bibliography="$bib" "_$html" > "$html" && rm "_$html"
 
 # Generate ZIP File
 # ------------------------------------------------------------------------------
