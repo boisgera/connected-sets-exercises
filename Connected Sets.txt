@@ -66,14 +66,15 @@ the annulus
 is included in $\mathbb{C} \setminus K$. 
 The annulus $A$ is path-connected:
 if $z_1 = r_1 e^{i\theta_1}$ and $z_2 = r_2 e^{i\theta_2}$ are in $A$,
-the path $\gamma$ defined by
+the path $\gamma= [r_1 \to r_2] e^{i[\theta_1 \to \theta_2]}$, 
+which is defined by
   $$
-  \gamma(t) = ((1-t) r_1 + t r_2) e^{i((1-t)\theta_1 + t\theta2})
+  \gamma(t) = ((1-t) r_1 + t r_2) e^{i((1-t)\theta_1 + t\theta_2)}
   $$
 belongs to $A$ and joins $z_1$ and $z_2$. Hence, $A$ is included in some
-path-connected component of $\mathbb{C} \setminus A$. 
+path-connected component of $\mathbb{C} \setminus K$. 
 The collection of these path-connected components are a partition of 
-$\mathbb{C} \setminus A$, hence every other component $C$ is a subset
+$\mathbb{C} \setminus K$, hence every other component $C$ is a subset
 of $\mathbb{C} \setminus A = \overline{D}(0,r)$: it is bounded.
 
 
@@ -118,7 +119,7 @@ Let $A$ and $B$ be two non-empty subsets of the complex plane.
     but not constant, hence $A \cup B$ is not connected.
 
  3. Consider again the function $f$ introduced in the previous answer.
-    The assumptions yield $A \cap B = \varnothing$; as $A$ and $B$ are 
+    The assumption yields $A \cap B = \varnothing$; as $A$ and $B$ are 
     non-empty, $f$ is not constant.
     If this function was not locally constant around some $a \in A$, 
     we could find a sequence of $b_n \in (A \cup B) \setminus A = B$ such that
