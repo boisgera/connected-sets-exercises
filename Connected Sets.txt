@@ -146,7 +146,7 @@ Anchor Set
     $A$ into $B$; formally, it is a collection of paths
     $\gamma_a$ of $A$, indexed by $a \in A$, such that:
 
-      - $\forall \, a \in A, \; \gamma_a(0) = a \, \wedge \, \gamma_a(1) \in B$,
+      - $\forall \, a \in A, \; \gamma_a(0) = a \, \mbox{ and } \, \gamma_a(1) \in B$,
 
       - $\forall \, a \in B, \; \forall \, t \in [0,1], \; \gamma_a(t) = a$,
 
