@@ -1,0 +1,12 @@
+name: complex-analysis
+channels:
+  - conda-forge
+dependencies:
+  - pandoc=1.16
+  - python=2.7
+  - pip
+  - numpy
+  - scipy
+  - matplotlib
+  - pillow
+

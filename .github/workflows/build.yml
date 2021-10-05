@@ -1,0 +1,78 @@
+name: build
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0} 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Activate conda environment (with Python stack and Pandoc 1.16)
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: complex-analysis
+          environment-file: environment.yml
+
+      - name: Misc. install
+        run: sudo apt-get install git curl zip pdf2svg imagemagick fonts-inconsolata libgmp10
+
+      - name: Node install
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - name: Coffeescript Install
+        run: npm install -g coffee-script
+
+      - name: Create temp directory
+        run: mkdir -p tmp
+
+      - name: Install pandoc-templates
+        run: |
+          cd /tmp
+          git clone https://github.com/boisgera/pandoc-templates.git
+          cd pandoc-templates
+          ./install.sh
+
+      - name: Install python pandoc
+        run: pip install pandoc==1.0.0a14
+
+      - name: Install eul-doc
+        run: |
+          cd /tmp
+          git clone https://github.com/boisgera/eul-doc.git
+          cd eul-doc
+          pip install --target=.lib --ignore-installed 'about>=5.1,<6'
+          pip install .
+
+      - name: Install eul-style
+        run: |
+          cd /tmp
+          git clone https://github.com/boisgera/eul-style.git
+          cd eul-style 
+          ./install
+
+      - name: LaTeX install
+        run: sudo apt-get update && sudo apt-get install texlive-full
+
+      - name: Build
+        run: ls && ./build
+
+      - name: Deployment Setup
+        run: rm .gitignore
+
+      - name: Deployment
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: "."
+          SINGLE_COMMIT: true
+          PRESERVE: true
